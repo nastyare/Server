@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Папка для логов -->
+    <property name="LOG_PATH" value="./src/main/resources/org/example/socket_serversocket/logs" />
+
+    <!-- Консольный аппендер -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Файловый аппендер с архивированием -->
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- Путь к файлу логов -->
+        <file>${LOG_PATH}/chat-server.log</file>
+
+        <!-- Стратегия архивирования -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeBasedRollingPolicy">
+            <!-- Архивирование файлов при 10 МБ -->
+            <maxFileSize>10MB</maxFileSize>
+            <fileNamePattern>${LOG_PATH}/chat-server.%i.log.zip</fileNamePattern>
+            <maxHistory>30</maxHistory> <!-- Количество архивных файлов -->
+        </rollingPolicy>
+
+        <!-- Триггер для создания нового файла -->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+
+        <!-- Формат вывода в лог -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Основной логгер -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ROLLING_FILE" />
+    </root>
+</configuration>
+
